@@ -1,0 +1,198 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESIGN TOKENS  — referenced via CSS variables so both themes work
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@theme {
+  /* Primary green — stays the same across both themes */
+  --color-primary-300: #6ee7a0;
+  --color-primary-400: #34d47a;
+  --color-primary-500: #16c95c;
+  --color-primary-600: #0ea34a;
+
+  /* Dark-mode background token */
+  --color-background: #080b08;
+}
+
+/* ── Dark mode root (default) ────────────────────────────────────────────── */
+:root {
+  --surface-bg: rgba(0, 255, 100, 0.04);
+  --surface-hover: rgba(0, 255, 100, 0.08);
+  --surface-border: rgba(0, 255, 100, 0.14);
+  --surface-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
+
+  --text-main: #f8fafc;
+  /* Slate 50 */
+  --text-dim: #94a3b8;
+  /* Slate 400 */
+  --text-muted: #64748b;
+  /* Slate 500 */
+
+  --bg-field: rgba(0, 0, 0, 0.50);
+  --border-field: rgba(255, 255, 255, 0.10);
+
+  --page-bg-image:
+    radial-gradient(ellipse 80% 40% at 50% -10%, hsla(140, 70%, 12%, 0.9) 0, transparent 70%),
+    radial-gradient(ellipse 60% 30% at 0% 100%, hsla(140, 60%, 8%, 0.6) 0, transparent 60%);
+}
+
+/* ── Light mode root (Material "paper" elevation) ────────────────────────── */
+html.light {
+  --color-background: #fdfdfd;
+
+  --surface-bg: #ffffff;
+  --surface-hover: #f9fdfa;
+  --surface-border: rgba(16, 120, 60, 0.12);
+  --surface-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+  --text-main: #1a2e1a;
+  /* Dark Forest */
+  --text-dim: #4a6b4a;
+  /* Muted Sage */
+  --text-muted: #7a9b7a;
+  /* Lighter Sage */
+
+  --bg-field: rgba(16, 120, 60, 0.04);
+  --border-field: rgba(16, 120, 60, 0.15);
+
+  --page-bg-image:
+    radial-gradient(ellipse 80% 40% at 50% -10%, hsla(140, 40%, 94%, 1.0) 0, transparent 70%),
+    radial-gradient(ellipse 60% 30% at 100% 100%, hsla(140, 30%, 92%, 0.8) 0, transparent 60%);
+
+  color-scheme: light;
+}
+
+/* ── Body ────────────────────────────────────────────────────────────────── */
+@layer base {
+  body {
+    @apply min-h-screen font-sans antialiased overflow-x-hidden;
+    background-color: var(--color-background);
+    background-image: var(--page-bg-image);
+    background-attachment: fixed;
+    color: var(--text-main);
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* ── Glassmorphism Utils ─────────────────────────────────────────────────── */
+@utility glass-panel {
+  background-color: var(--surface-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--surface-shadow);
+  border-radius: 4px;
+}
+
+@utility glass-card {
+  background-color: var(--surface-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--surface-shadow);
+  border-radius: 4px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background-color: var(--surface-hover);
+  transform: translateY(-1px);
+}
+
+@utility glass-input {
+  background-color: var(--bg-field);
+  border: 1px solid var(--border-field);
+  border-radius: 3px;
+  padding: 0.75rem 1rem;
+  color: var(--text-main);
+  transition: all 0.15s ease;
+  width: 100%;
+}
+
+.glass-input::placeholder {
+  color: var(--text-muted);
+}
+
+.glass-input:focus {
+  outline: none;
+  border-color: var(--color-primary-500);
+  background-color: var(--surface-bg);
+  box-shadow: 0 0 0 1px var(--color-primary-500);
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+@utility btn-primary {
+  padding: 0.75rem 1rem;
+  border-radius: 3px;
+  background-color: var(--color-primary-600);
+  color: #fff !important;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  box-shadow: 0 2px 8px rgba(14, 163, 74, 0.30);
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-500);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(14, 163, 74, 0.35);
+}
+
+.btn-primary:active {
+  background-color: var(--color-primary-600);
+  transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@utility btn-secondary {
+  padding: 0.75rem 1rem;
+  border-radius: 3px;
+  background-color: var(--bg-field);
+  border: 1px solid var(--border-field);
+  color: var(--text-main);
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background-color: var(--surface-hover);
+  border-color: var(--color-primary-500);
+}
+
+/* ── Text Utils ──────────────────────────────────────────────────────────── */
+@utility text-main {
+  color: var(--text-main);
+}
+
+@utility text-dim {
+  color: var(--text-dim);
+}
+
+@utility text-muted {
+  color: var(--text-muted);
+}
+
+/* Perspective utils */
+@utility perspective-1000 {
+  perspective: 1000px;
+}
+
+@utility preserve-3d {
+  transform-style: preserve-3d;
+}
+
+@utility backface-hidden {
+  backface-visibility: hidden;
+}
