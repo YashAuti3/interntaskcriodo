@@ -10,6 +10,7 @@ const walletRoutes = require('./routes/walletRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const gameRoutes = require('./routes/gameRoutes');
 
+
 dotenv.config();
 
 // creating express instance
@@ -17,7 +18,10 @@ const app = express();
 
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  credentials: true
+}));
 app.use(express.json());
 
 // Connect to MongoDB
